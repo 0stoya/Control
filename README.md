@@ -163,6 +163,19 @@ Each metric must name its event, business date, quantity/value law, currency,
 freshness and authority. Warehouse movement, delivery-note posting, settled
 despatch and invoice posting must not be merged into one ambiguous number.
 
+## Product families and variants
+
+V2 will represent a displayable product family separately from its exact
+sellable variants. Legacy web-category evidence shows that a grouped category
+can hold ordered size variants while each exact SKU retains its own price,
+stock and Q24 assembly recipe. A friendly unsized family key may be created for
+the V2 experience, but it is not an ERP stock code.
+
+Family membership must come from accepted relationship evidence rather than SKU
+parsing. Customer catalogue placement, exact variant identity and variant recipe
+remain separate, provenance-bearing facts. See
+[ADR 0001: Category-backed product families](docs/architecture/0001-category-backed-product-families.md).
+
 ## Evidence and event contract
 
 Every imported observation or event must carry enough information to reproduce
