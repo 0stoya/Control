@@ -37,6 +37,10 @@ and retains the existing immutable foundation virtualenv. It enables the API
 through root-only /etc/control/staff-auth.env, rehearses the previous release,
 tests authority-link loss/recovery, then verifies nginx before public activation.
 Deployment failure restores the previous release/unit/env/proxy.
+Public acceptance waits within a bounded window for nginx's new workers after
+reload. An initial immediate probe returned the old setup HTTP 503; automatic
+rollback restored the foundation release, setup proxy and absent auth environment.
+All three API/bridge/nginx services were active after that rollback.
 
 Root-only rollback state and deployment receipt are under
 /etc/control/rollback/staff-auth-20261006-COMMIT_PREFIX. Neither directory nor

@@ -113,6 +113,12 @@ try:
     site.chmod(0o644)
     run('nginx','-t')
     run('systemctl','reload','nginx')
+    # Reload signals nginx; the command can finish before new workers accept.
+    deadline=time.monotonic()+15
+    while fetch('/login',public=True)[0] != 200:
+        if time.monotonic() >= deadline:
+            raise RuntimeError('public login did not become ready after reload')
+        time.sleep(0.5)
     for path,status in [('/login',200),('/',303),('/api/session',401),('/health/ready',404),
                         ('/auth/health',404),('/auth/admin/users',404),
                         ('/assets/control.css',200),('/assets/login.js',200),('/assets/workspace.js',200)]:
@@ -146,7 +152,7 @@ except Exception as error:
         run('systemctl','restart','control-api.service')
         run('nginx','-t')
         run('systemctl','reload','nginx')
-        print(json.dumps({'state':'ROLLED_BACK','error_type':type(error).__name__,'failed_check':str(error)}))
+        print(json.dumps({'state':'ROLLED_BACK','error_type':type(error).__name__,'failed_check':str(error),'checks_completed':checks}))
     finally:
         raise SystemExit(1)
 """
