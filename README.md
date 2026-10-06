@@ -207,6 +207,20 @@ parsing. Customer catalogue placement, exact variant identity and variant recipe
 remain separate, provenance-bearing facts. See
 [ADR 0001: Category-backed product families](docs/architecture/0001-category-backed-product-families.md).
 
+## CRM account relationships
+
+V2 will preserve each customer reference as a separate account and represent
+links between accounts as typed facts. Account hierarchy, invoice-account and
+price-source relationships have different meanings and retain independent
+source evidence. A shared name or an invoice/price reference cannot silently
+create a parent relationship.
+
+Portable hierarchy exports use one row per company reference with a nullable
+parent reference plus a manifest containing the source snapshot, observation
+time, row count, hash and translator version. Imports reject duplicate children,
+self-links, cycles and unresolved parents before updating projections. See
+[ADR 0002: Evidence-backed account relationships](docs/architecture/0002-evidence-backed-account-relationships.md).
+
 ## Evidence and event contract
 
 Every imported observation or event must carry enough information to reproduce
