@@ -11,7 +11,7 @@ versioned projections.
 
 ## Current status
 
-**Staff sign-in and protected shell deployed; existing-account acceptance pending.** Control V2 has
+**Staff sign-in and protected shell deployed; existing-account sign-in confirmed.** Control V2 has
 native Ubuntu 24.04 deployment scripts, a running private FastAPI health service,
 checksum-verified PostgreSQL migrations, an immutable evidence envelope/storage
 contract and focused foundation tests. No business capability is deployed or
@@ -25,7 +25,7 @@ and the firewall permits rate-limited SSH plus public HTTP/HTTPS. The API and
 database remain private. The staff gateway uses the existing single V1 auth
 authority, preserving existing passwords and authenticator enrolments. Public
 boundaries, native synthetic auth and rollback passed; an existing staff member
-must still verify sign-in directly at the V2 hostname.
+confirmed successful existing-account sign-in at the V2 hostname.
 
 The initial public hostname is `control.csscdn.co.uk`; the later business
 hostname is `control.chelmsfordsafety.co.uk`. IONOS Acronis is deferred at the

@@ -1,7 +1,7 @@
 # Staff sign-in and V2 shell acceptance
 
 6 October 2026, 16:12 BST. Staff gateway and protected shell are deployed.
-Existing-staff acceptance is pending. No business migration belongs to this step.
+Existing-staff password/MFA sign-in was confirmed by the operator at 17:23 BST. No business migration belongs to this step.
 
 ## Implemented and tested
 
@@ -78,11 +78,13 @@ This is application/transport acceptance, not a business authority cutover.
 
 ## Staff acceptance
 
-Pending: an existing staff member signs in directly at
-https://control.csscdn.co.uk using their existing password and authenticator,
-confirms the shell opens and signs out. Credentials and codes must stay in that
-browser. Synthetic integration proves protocol behavior; it does not replace
-this real-account acceptance check.
+Confirmed by the operator on 6 October 2026, 17:23 BST:
+“confirmed - i can log in and authenticate”.
+
+Existing-account password and authenticator continuity is accepted for the
+deployed V2 sign-in. Credentials/codes stayed in the browser. Real-account
+sign-out was not separately reported; logout revocation passed native synthetic
+integration. Staff/business permission cutovers remain separate.
 
 The shell offers a link to current Control and labels operational workspaces as
 Preparing. No V2 order/account import or mailbox worker is enabled by this slice.

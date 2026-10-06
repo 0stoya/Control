@@ -2,7 +2,7 @@
 
 Status: Implemented and deployed on 6 October 2026. Native synthetic parity,
 public boundary and rollback checks passed; controlled existing-account
-password/MFA acceptance remains pending. See the staff-auth acceptance runbook.
+password/MFA sign-in confirmed by the operator on 6 October 2026. See the staff-auth acceptance runbook.
 
 Authority: the existing V1 `css-auth` service and its `css_app.auth` state remain
 the single writer for identity, password/MFA, lockouts, sessions, recovery codes,

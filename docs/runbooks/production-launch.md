@@ -1,6 +1,6 @@
 # Control V2 production launch configuration
 
-Status: HTTPS staff sign-in and protected shell deployed on 2026-10-06; controlled existing-account acceptance pending; Acronis deferred by operator.
+Status: HTTPS staff sign-in and protected shell deployed on 2026-10-06; controlled existing-account sign-in confirmed; Acronis deferred by operator.
 
 ## Public addresses and DNS
 
@@ -33,8 +33,8 @@ Private health and auth-administration routes are unavailable publicly. Protecte
 requests freshly validate the V1 authority through a restricted SSH link.
 
 Native synthetic auth, public boundaries, link-outage recovery and previous-release
-rollback checks passed. An existing staff account must still complete normal
-password/authenticator sign-in at V2 to close account acceptance. No business
+rollback checks passed. The operator confirmed normal existing-account password/authenticator
+sign-in at V2 on 6 October 2026. No business
 screen/import is active. See [staff rollout evidence](staff-auth-2026-10-06.md).
 
 For the later business hostname, prepare DNS and its certificate, switch the

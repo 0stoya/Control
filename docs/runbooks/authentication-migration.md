@@ -125,7 +125,7 @@ V1 remains the single auth writer. Existing passwords, encrypted seeds and
 recovery records were not exported or recreated. Synthetic native integration
 proved V1 password/MFA/replay/recovery laws and the 64-character opaque cookie
 format. Private-link loss/recovery and application rollback were exercised.
-Existing real-account sign-in acceptance remains pending.
+Existing-account password/MFA sign-in was confirmed by the operator.
 
 See [the contract](../source-contracts/0004-shared-staff-authentication.md) and
 [deployment/acceptance record](staff-auth-2026-10-06.md). Business authority and
