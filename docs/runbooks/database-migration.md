@@ -13,11 +13,15 @@ No new business schema, data import or authority cutover has been applied.
 These have separate acceptance gates. A successful SQL migration does not mean
 data is complete, current, reconciled or authoritative.
 
-The operator is finishing V1 development and will synchronize it shortly.
-Pin that final source revision and the actual deployed/database boundary before
-freezing export contracts. No V1 pull, merge or application change is performed
-by this planning step. Acronis is deferred; native local backups and isolated
-restore checks remain in scope.
+The operator completed V1 development and pulled the local CSS checkout on
+2026-10-06. The clean, synchronized source checkpoint is
+`16bb3c2d1e14b59682a88f91e0fd7a98df1e1c12`. The live V1 repository is at
+`9163fd3d73950b9c737672a47f6f6059d791ad75`, and its current immutable web release
+is `26ecb133833c30d26414901480d5c2fa49d9a0e1`. These are separate boundaries;
+the local pull did not deploy V1 or freeze its changing business data.
+See the [mapping checkpoint and entity diagram](../migration/0001-sales-order-map.md).
+No V1 pull, merge or application change is performed by this mapping step.
+Acronis is deferred; native local backups and isolated restore checks remain in scope.
 
 ## Intended PostgreSQL redesign
 
@@ -142,16 +146,19 @@ retaining compatible schema and evidence; corrective SQL moves forward.
 
 ## Proposed first schema slice
 
-After the final V1 checkpoint is available, specify canonical account/order/line
-identities, source links and distinct lifecycle events for Sales Order Timeline.
-Include only the CRM/product context necessary for that working slice. Follow
-with its translator, indexed reporting projection, authenticated API and UI.
-Use the same model for precisely named warehouse and settled-despatch views.
+The [first mapping](../migration/0001-sales-order-map.md) now proposes canonical
+company/account/order/line identities, source links and distinct lifecycle events
+for Sales Order Timeline. Its [source contract](../source-contracts/0002-sales-order-timeline.md)
+records unresolved native line mapping, delivery-note key scope and overlapping
+warehouse captures. Prove those mappings before enabling the corresponding lanes.
+Implement only the CRM/product context needed for that working slice, then its
+translator, indexed reporting projection, authenticated API and UI. Use the same
+model for precisely named warehouse and settled-despatch views.
 
-The account-relationship ADR on origin/main must be integrated alongside the
-production foundation before its model is used. Resolve duplicate ADR numbering
-during repository reconciliation. Schema migration numbering is separate and
-remains governed by the applied database ledger.
+The account-relationship design from origin/main is integrated as
+[ADR 0002](../architecture/0002-evidence-backed-account-relationships.md).
+The native production foundation is [ADR 0003](../architecture/0003-native-production-foundation.md).
+Schema migration numbering is separate; deployed `0001_foundation.sql` is unchanged.
 
 Existing design evidence:
 - [V2 domain model and delivery sequence](../../README.md#postgresql-domains)

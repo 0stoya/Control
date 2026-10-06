@@ -1,0 +1,1922 @@
+{
+  "database": "css_app",
+  "relations": [
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "first_observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "business_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "entry_time_raw",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "delivery_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "delivery_suffix",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "print_indicator",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "item_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "kit_indicator",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "unique_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "customer_ref",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "stock_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "quantity_despatched",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "line_value",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "goods_value_gbp",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "currency_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "settlement_pending",
+          "type": "boolean",
+          "nullable": true
+        },
+        {
+          "name": "account_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "customer",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "rep",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "relation": "current_delivery_note_despatch_line"
+    },
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "sync_run_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "row_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "source_order_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "source_order_line_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "source_delivery_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "source_delivery_suffix",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "source_delivery_item_no",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "source_kit_indicator",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "source_print_indicator",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "source_customer_ref",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "source_stock_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "quantity_despatched",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_goods_value",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_currency_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "goods_value_gbp",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "included_in_gbp_metric",
+          "type": "boolean",
+          "nullable": true
+        },
+        {
+          "name": "despatch_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "despatch_time",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "source_price",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_line_discount_value",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_discount_rate",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_header_carriage",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "source_exchange_rate",
+          "type": "numeric",
+          "nullable": true
+        }
+      ],
+      "relation": "current_despatch_line_fact"
+    },
+    {
+      "keys": [
+        {
+          "type": "u",
+          "definition": "UNIQUE (policy_set_id, order_number)"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (override_id)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (policy_set_id) REFERENCES fulfilment.customer_service_policy_set(policy_set_id) ON DELETE RESTRICT"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "override_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "policy_set_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "order_number",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "promised_leave_date",
+          "type": "date",
+          "nullable": false
+        },
+        {
+          "name": "source_kind",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "customer_promise_override"
+    },
+    {
+      "keys": [
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (policy_rule_id)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (policy_set_id) REFERENCES fulfilment.customer_service_policy_set(policy_set_id) ON DELETE RESTRICT"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "policy_rule_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "policy_set_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "match_kind",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "match_key",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "promise_rule",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "fixed_weekdays",
+          "type": "ARRAY",
+          "nullable": true
+        },
+        {
+          "name": "transit_working_days",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "alternate_consent",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "part_ship_policy",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "priority_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "comparable_sla_lead_wd",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "comparable_sla_state",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "customer_service_policy_rule"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (owner_role) REFERENCES auth.operational_profile(profile_key)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (owner_user_id) REFERENCES auth.app_user(user_id) ON DELETE SET NULL"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (episode_id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "episode_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "order_number",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "episode_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "source_state",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "state_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "reason_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "owner_role",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "owner_user_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "promised_leave_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "promise_context",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "wake_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "deadline_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "source_first_seen_sync_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "source_last_seen_sync_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "source_cleared_sync_run_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "current_evidence",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "current_explanation",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "version",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "source_cleared_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "progress_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "released_to_pick_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "picking_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "despatched_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "progress_updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "workflow_episode"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (actor_user_id) REFERENCES auth.app_user(user_id) ON DELETE SET NULL"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (episode_id) REFERENCES fulfilment.workflow_episode(episode_id) ON DELETE RESTRICT"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (event_id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "fulfilment",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "episode_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "actor_user_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "from_version",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "to_version",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "from_state_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "to_state_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "from_reason_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "to_reason_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "workflow_event"
+    },
+    {
+      "keys": [],
+      "kind": null,
+      "exists": false,
+      "schema": "ogl",
+      "columns": [],
+      "relation": "current_order_header"
+    },
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "ogl",
+      "columns": [
+        {
+          "name": "sync_run_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "row_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "cref",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "ordno",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "uniqueno",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "orddate",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "deldate",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "ackdeldate",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "line_deldate",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "line_ackdeldate",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "route",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "rep",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "stcode",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "descr",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "category",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "quan",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "alloc",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "desp",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "prod",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "disc",
+          "type": "numeric",
+          "nullable": true
+        },
+        {
+          "name": "fullname",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "relation": "current_order_line"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (header_observation_id) REFERENCES sculptor_live.observation(id)"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "source_key",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "source_key_hash",
+          "type": "character",
+          "nullable": false
+        },
+        {
+          "name": "header_observation_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "line_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "keyset_basis",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "reconciliation_status",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "inserted_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "business_snapshot"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (observation_id) REFERENCES sculptor_live.observation(id)"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (snapshot_id, line_no)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (snapshot_id) REFERENCES sculptor_live.business_snapshot(id)"
+        },
+        {
+          "type": "u",
+          "definition": "UNIQUE (snapshot_id, observation_id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "line_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "observation_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "inserted_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "business_snapshot_line"
+    },
+    {
+      "keys": [
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (capture_id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "capture_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "seed_delivery_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "header_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "line_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "header_business_record_reads",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "header_seek_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "header_advance_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "line_business_record_reads",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "line_seek_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "line_advance_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "boundary_record_reads",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "full_file_enumeration_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "sculptor_locking_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "sculptor_write_operations",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "header_schema_sha256",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "line_schema_sha256",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "capture_basis",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "end_of_index_reached",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "delivery_note_capture"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (capture_id) REFERENCES sculptor_live.delivery_note_capture(capture_id)"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (capture_id, print_indicator, delivery_no, delivery_suffix, order_no)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "capture_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "print_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "delivery_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "delivery_suffix",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "customer_ref",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "currency_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "exchange_rate",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "entry_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "entry_time_raw",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "delivery_note_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "retail_prices",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "text",
+          "nullable": false
+        }
+      ],
+      "relation": "delivery_note_header_observation"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (capture_id, print_indicator, delivery_no, delivery_suffix, order_no) REFERENCES sculptor_live.delivery_note_header_observation(capture_id, print_indicator, delivery_no, delivery_suffix, order_no)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (capture_id) REFERENCES sculptor_live.delivery_note_capture(capture_id)"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (capture_id, print_indicator, delivery_no, delivery_suffix, order_no, item_no, kit_indicator)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "capture_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "print_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "delivery_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "delivery_suffix",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "item_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "kit_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "unique_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "customer_ref",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "stock_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "quantity_ordered",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "quantity_despatched",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "price",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "line_discount_value",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "discount_rate",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "line_value",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "retail_price",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "retail_line_discount_value",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "retail_line_value",
+          "type": "numeric",
+          "nullable": false
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "text",
+          "nullable": false
+        }
+      ],
+      "relation": "delivery_note_line_observation"
+    },
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "kind",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "source_key",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "source_key_hash",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "line_count",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "keyset_basis",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "reconciliation_status",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "header_observation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "header_dataset",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "header_payload",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "header_schema_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "header_raw_record_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "header_evidence_level",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "header_reconciliation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "header_reconciled_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "header_reconciliation_status",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "header_mirror_row_version_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "header_mirror_last_observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "relation": "latest_business_snapshot"
+    },
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "observation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "crm_reference",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "ledger_reference",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "full_name",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "account_status",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "sales_rep",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "account_manager",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "schema_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "reconciliation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "reconciled_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "reconciliation_status",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "mirror_row_version_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "mirror_last_observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "relation": "latest_crm_company"
+    },
+    {
+      "keys": [],
+      "kind": "v",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "observation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "crm_reference",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "contact_number",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "contact_name",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "telephone",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "mobile",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "schema_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "reconciliation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "reconciled_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "reconciliation_status",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "mirror_row_version_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "mirror_last_observed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "relation": "latest_crm_contact"
+    },
+    {
+      "keys": [
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "dataset",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "source_instance",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "schema_sha256",
+          "type": "character",
+          "nullable": false
+        },
+        {
+          "name": "source_key",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "source_key_hash",
+          "type": "character",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "payload_hash",
+          "type": "character",
+          "nullable": false
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "character",
+          "nullable": true
+        },
+        {
+          "name": "mariadb_table",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "evidence_level",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "inserted_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "relation": "observation"
+    },
+    {
+      "keys": [
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (transition_id, pick_no, pick_suffix, order_no, item_no, kit_indicator, line_no, batch_no, bin_no)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (transition_id) REFERENCES sculptor_live.picking_bwms_hot_transition(transition_id) ON DELETE CASCADE"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "transition_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "event_class",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "pick_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "pick_suffix",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "item_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "kit_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "line_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "batch_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "bin_no",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "unique_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "stock_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "previous_this_pick",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_this_pick",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "pick_delta",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "previous_this_despatched",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_this_despatched",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "despatch_delta",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "previous_scan_quantity",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_scan_quantity",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "scan_quantity_delta",
+          "type": "double precision",
+          "nullable": true
+        }
+      ],
+      "relation": "picking_bwms_hot_transition_event"
+    },
+    {
+      "keys": [
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (capture_id) REFERENCES sculptor_live.picking_bwms_capture(capture_id) ON DELETE CASCADE"
+        },
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (capture_id, pick_no, pick_suffix, order_no, item_no, kit_indicator, line_no, batch_no, bin_no)"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "capture_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "pick_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "pick_suffix",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "item_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "kit_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "line_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "batch_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "bin_no",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "unique_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "stock_code",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "this_pick",
+          "type": "double precision",
+          "nullable": false
+        },
+        {
+          "name": "this_despatched",
+          "type": "double precision",
+          "nullable": false
+        },
+        {
+          "name": "original_quantity",
+          "type": "double precision",
+          "nullable": false
+        },
+        {
+          "name": "original_batch_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "original_bin_no",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "original_trace_ref",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "scan_batch_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "scan_bin_no",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "scan_trace_ref",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "scan_quantity",
+          "type": "double precision",
+          "nullable": false
+        },
+        {
+          "name": "raw_record_sha256",
+          "type": "character",
+          "nullable": false
+        }
+      ],
+      "relation": "picking_bwms_row"
+    },
+    {
+      "keys": [
+        {
+          "type": "p",
+          "definition": "PRIMARY KEY (transition_id, pick_no, pick_suffix, order_no, item_no, kit_indicator, line_no, batch_no, bin_no)"
+        },
+        {
+          "type": "f",
+          "definition": "FOREIGN KEY (transition_id) REFERENCES sculptor_live.picking_bwms_transition(transition_id) ON DELETE CASCADE"
+        }
+      ],
+      "kind": "r",
+      "exists": true,
+      "schema": "sculptor_live",
+      "columns": [
+        {
+          "name": "transition_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "event_class",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "pick_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "pick_suffix",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "order_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "item_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "kit_indicator",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "line_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "batch_no",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "bin_no",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "unique_no",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "stock_code",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "previous_this_pick",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_this_pick",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "pick_delta",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "previous_this_despatched",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_this_despatched",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "despatch_delta",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "previous_scan_quantity",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "current_scan_quantity",
+          "type": "double precision",
+          "nullable": true
+        },
+        {
+          "name": "scan_quantity_delta",
+          "type": "double precision",
+          "nullable": true
+        }
+      ],
+      "relation": "picking_bwms_transition_event"
+    }
+  ],
+  "observed_at": "2026-10-06T11:58:17.49684+00:00",
+  "schema_version": "v1_migration_schema_inventory_v1",
+  "source_checkout": "16bb3c2d1e14b59682a88f91e0fd7a98df1e1c12",
+  "live_repository": "9163fd3d73950b9c737672a47f6f6059d791ad75",
+  "live_control_release": "26ecb133833c30d26414901480d5c2fa49d9a0e1",
+  "notes": [
+    "Schema metadata only; no table rows, secret values or source payloads.",
+    "Source checkout and deployed runtime revisions are distinct; no V1 update performed.",
+    "Existence of a view does not establish freshness or accepted authority."
+  ]
+}

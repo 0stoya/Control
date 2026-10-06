@@ -1,4 +1,4 @@
-# ADR 0002: Native production foundation and authentication continuity
+# ADR 0003: Native production foundation and authentication continuity
 
 Status: Foundation deployed privately; public rollout and capability acceptance pending
 

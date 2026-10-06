@@ -39,7 +39,7 @@ existing design evidence and proposed delivery sequence.
 Start with [first root key login](docs/runbooks/ssh-key-first-login.md), then
 [the production server runbook](docs/runbooks/production-server.md). Read
 [authentication continuity](docs/runbooks/authentication-migration.md),
-[ADR 0002](docs/architecture/0002-native-production-foundation.md) and
+[ADR 0003](docs/architecture/0003-native-production-foundation.md) and
 [the foundation evidence contract](docs/source-contracts/0001-foundation-evidence.md).
 
 See [the deployed foundation and acceptance record](docs/runbooks/production-foundation-2026-10-06.md)
@@ -137,6 +137,10 @@ when scaling, isolation, ownership or deployment evidence justifies it.
 
 See the [database redesign and migration plan](docs/runbooks/database-migration.md)
 for the separation between schema migrations, data transfer and authority cutover.
+The [first V1-to-V2 mapping and entity diagram](docs/migration/0001-sales-order-map.md)
+pins the completed local CSS checkout at `16bb3c2d` and records the distinct live
+runtime revisions. Its [Sales Order Timeline contract](docs/source-contracts/0002-sales-order-timeline.md)
+defines the identity and reconciliation work required before business intake.
 
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:
