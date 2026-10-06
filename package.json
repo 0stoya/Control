@@ -1,0 +1,12 @@
+{
+  "name": "control-v2-foundation-checks",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test:database": "node --test tests/postgres-foundation.test.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}
+

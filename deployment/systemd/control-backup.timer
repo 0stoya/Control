@@ -1,0 +1,12 @@
+[Unit]
+Description=Control V2 daily local recovery copy
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 UTC
+RandomizedDelaySec=15m
+Persistent=true
+Unit=control-backup.service
+
+[Install]
+WantedBy=timers.target
+

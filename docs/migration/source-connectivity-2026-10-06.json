@@ -1,0 +1,46 @@
+{
+  "schema_version": "source_connectivity_probe_v1",
+  "checked_at": "2026-10-06T16:26:02Z",
+  "source_host": "CSS-Live",
+  "source_ip": "85.215.119.154",
+  "endpoints": [
+    {
+      "service": "MariaDB",
+      "host": "20.90.29.189",
+      "port": 3306,
+      "tcp": "CONNECTED",
+      "handshake": "READY_FOR_AUTHENTICATION",
+      "tls_advertised": true,
+      "default_certificate_verification": "FAILED_SELF_SIGNED_CHAIN",
+      "credentials_used": true,
+      "authenticated_read": "AUTHENTICATED_READ_OK",
+      "certificate_sha256": "02036952a45bbabfadc42668ef4be53a4210b80c375548bc3b2ad5a8a3fe0e44",
+      "tls_version": "TLSv1.3",
+      "tls_trust": "TEMPORARY_EXACT_CERTIFICATE_PIN_FROM_V1",
+      "bounded_source_table_read": true
+    },
+    {
+      "service": "Sculptor",
+      "host": "20.90.29.189",
+      "port": 5343,
+      "tcp": "CONNECTED",
+      "protocol_and_dictionary_read": "PASSED",
+      "server_version": "5.9.9",
+      "server_protocol": "1.9",
+      "dictionary": "stock.d",
+      "dictionary_bytes": 11507,
+      "dictionary_sha256": "ccea705c3e828d46f2ab84dc7336811ae3bbee25489fe17fcb54212651fc0fa1",
+      "probe_sha256": "aa6e716269e0d87a5646db51a4cc01b154b9765ed1fbbbf4355fd76dd2963ce2",
+      "business_records_read": false,
+      "writes_performed": false
+    }
+  ],
+  "v1_control_probe": "BOTH_TCP_CONNECTED",
+  "collectors_enabled": false,
+  "credentials_persisted": false,
+  "notes": [
+    "Operator explicitly approved one-off in-memory MariaDB credential use after automatic review requested specific authorization; authenticated read-only probe then passed.",
+    "Sculptor probe reads one bounded dictionary only; it does not attest business capture parity or operational authority.",
+    "Native diagnostic clients installed; no source credentials, daemon, timer or collector configuration persisted."
+  ]
+}

@@ -1,0 +1,38 @@
+[Unit]
+Description=Control V2 restricted link to existing authentication authority
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=control_auth_bridge
+Group=control_auth_bridge
+LoadCredential=auth-key:/etc/control/auth-bridge/identity
+LoadCredential=auth-known-hosts:/etc/control/auth-bridge/known_hosts
+ExecStart=/usr/bin/ssh -4 -NT -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=%d/auth-known-hosts -o GlobalKnownHostsFile=/dev/null -o ConnectTimeout=10 -o ConnectionAttempts=1 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o LogLevel=ERROR -i %d/auth-key -L 127.0.0.1:18020:127.0.0.1:8020 control_auth_bridge@77.68.81.175
+Restart=always
+RestartSec=10
+TimeoutStopSec=10
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1
+IPAddressAllow=77.68.81.175
+
+[Install]
+WantedBy=multi-user.target

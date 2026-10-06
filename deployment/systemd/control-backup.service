@@ -1,0 +1,14 @@
+[Unit]
+Description=Control V2 local PostgreSQL recovery copy
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /srv/control/current/deployment/ubuntu24/backup.sh
+UMask=0077
+TimeoutStartSec=1h
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+

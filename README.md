@@ -11,11 +11,41 @@ versioned projections.
 
 ## Current status
 
-**Foundation planning.** No V2 capability is operationally authoritative yet.
-Sculptor/Profit+ remains the ERP authority, the existing CSS platform remains the
-calculation and operational authority during migration, and MariaDB/OGL remains
-historical and reconciliation evidence until each dependency is explicitly
-retired.
+**Staff sign-in and protected shell deployed; existing-account sign-in confirmed.** Control V2 has
+native Ubuntu 24.04 deployment scripts, a running private FastAPI health service,
+checksum-verified PostgreSQL migrations, an immutable evidence envelope/storage
+contract and focused foundation tests. No business capability is deployed or
+operationally authoritative yet. Sculptor/Profit+ remains the ERP authority,
+the existing CSS platform remains the calculation and operational authority,
+and MariaDB/OGL remains historical and reconciliation evidence.
+
+The production target is `85.215.119.154`, using native systemd services with
+**no Docker**. Root SSH is secured with public keys, password SSH is disabled,
+and the firewall permits rate-limited SSH plus public HTTP/HTTPS. The API and
+database remain private. The staff gateway uses the existing single V1 auth
+authority, preserving existing passwords and authenticator enrolments. Public
+boundaries, native synthetic auth and rollback passed; an existing staff member
+confirmed successful existing-account sign-in at the V2 hostname.
+
+The initial public hostname is `control.csscdn.co.uk`; the later business
+hostname is `control.chelmsfordsafety.co.uk`. IONOS Acronis is deferred at the
+operator's request. Daily local PostgreSQL backup and restore checks remain in
+the migration plan; off-server protection is not configured.
+DNS, HTTPS and the public staff gateway are verified. See
+[staff sign-in acceptance](docs/runbooks/staff-auth-2026-10-06.md) and the earlier
+[HTTPS foundation acceptance](docs/runbooks/production-https-2026-10-06.md).
+See [launch configuration](docs/runbooks/production-launch.md) and the
+[V2 redesign brief](docs/product/v2-redesign.md) for the recorded decisions,
+existing design evidence and proposed delivery sequence.
+
+Start with [first root key login](docs/runbooks/ssh-key-first-login.md), then
+[the production server runbook](docs/runbooks/production-server.md). Read
+[authentication continuity](docs/runbooks/authentication-migration.md),
+[ADR 0003](docs/architecture/0003-native-production-foundation.md) and
+[the foundation evidence contract](docs/source-contracts/0001-foundation-evidence.md).
+
+See [the deployed foundation and acceptance record](docs/runbooks/production-foundation-2026-10-06.md)
+for the installed release, native tests, backup restore and remaining public rollout gates.
 
 ## Goals
 
@@ -106,6 +136,28 @@ This starts as a modular monolith. Services should be separated further only
 when scaling, isolation, ownership or deployment evidence justifies it.
 
 ## PostgreSQL domains
+
+See the [database redesign and migration plan](docs/runbooks/database-migration.md)
+for the separation between schema migrations, data transfer and authority cutover.
+The [first V1-to-V2 mapping and entity diagram](docs/migration/0001-sales-order-map.md)
+pins the completed local CSS checkout at `16bb3c2d` and records the distinct live
+runtime revisions. Its [Sales Order Timeline contract](docs/source-contracts/0002-sales-order-timeline.md)
+defines the identity and reconciliation work required before business intake.
+The [key proof and acceptance limits](docs/migration/0002-identity-proof-2026-10-06.md)
+record live reconciliation, native-slot reuse, delivery keys and tested local safeguards.
+
+The operator also selected a Purchasing email inbox and supplier-confirmation
+validation. [Its source contract](docs/source-contracts/0003-purchasing-mail-inbox.md)
+defines immutable mail evidence, exact sent-PO revision comparison, reviewed
+variant/unit mappings and independent delivery exceptions. Local coordinate-aware
+candidate extraction and comparison tests are implemented; mail collection and
+authenticated UI are pending. [Mail migration](docs/runbooks/mail-migration.md)
+records protected disabled settings staging and the unresolved inbox read grant.
+Direct source tests from V2 now pass: MariaDB authenticated read over pinned TLS
+and Sculptor protocol/dictionary read. See
+[source access acceptance](docs/runbooks/source-connectivity-2026-10-06.md).
+Continue controlled V1 discovery/exports until collector ownership, durable trust
+and source-population acceptance are ready.
 
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:
@@ -274,3 +326,23 @@ The existing implementation, evidence, source research and accepted business
 rules remain in [0stoya/CSS](https://github.com/0stoya/CSS). Control V2 should
 reference that evidence while keeping its own domain contracts and architecture
 decisions concise and current.
+
+## Foundation development
+
+Use Python 3.12. The native Linux service uses local peer authentication; local
+health tests can run without a database. No source systems are contacted.
+
+```bash
+python -m venv .venv
+# Linux: source .venv/bin/activate; Windows: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m pip check
+python -m unittest discover -s tests -v
+npm ci --ignore-scripts
+npm run test:database
+```
+
+The Node dependency is test-only: it executes PostgreSQL SQL in PGlite to prove
+constraints, append-only evidence and runtime privilege isolation. Production
+uses native PostgreSQL 16. OS peer authentication, systemd, RAID, firewall, TLS,
+backup restore and live auth migration require separate host acceptance.
