@@ -12,6 +12,7 @@
       $('greeting').textContent = 'Welcome, ' + name;
       const profiles = {purchasing: 'Purchasing', sales: 'Sales', planning: 'Planning', operations: 'Operations'};
       $('profile').textContent = profiles[value.user.operational_profile] || 'Your operational workspace';
+      $('orders-link').hidden = !value.capabilities?.orders;
     } catch (error) { $('workspace-error').textContent = error.message; $('workspace-error').hidden = false; }
   }
   $('logout').addEventListener('click', async () => {

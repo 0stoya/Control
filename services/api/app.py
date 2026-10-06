@@ -13,6 +13,8 @@ from fastapi.responses import JSONResponse
 from packages.migrations import migration_manifest
 from services.auth.gateway import AuthGateway
 from services.auth.routes import mount_staff_routes
+from services.orders.repository import OrderRepository
+from services.orders.routes import mount_order_routes
 
 LOG = logging.getLogger("control.health")
 MIGRATIONS = Path(__file__).resolve().parents[2] / "migrations"
@@ -34,7 +36,7 @@ def database_is_ready() -> bool:
         return applied == migration_manifest(MIGRATIONS)
 
 
-def create_app(readiness_probe: Callable[[], bool] = database_is_ready, auth_gateway: AuthGateway | None = None) -> FastAPI:
+def create_app(readiness_probe: Callable[[], bool] = database_is_ready, auth_gateway: AuthGateway | None = None, order_repository=None) -> FastAPI:
     app = FastAPI(title="Control V2 foundation", docs_url=None, redoc_url=None, openapi_url=None)
 
     @app.get("/health/live")
@@ -47,6 +49,8 @@ def create_app(readiness_probe: Callable[[], bool] = database_is_ready, auth_gat
             ready_state = readiness_probe()
             if ready_state and auth_gateway is not None:
                 ready_state = auth_gateway.healthy()
+            if ready_state and order_repository is not None:
+                ready_state = order_repository.healthy()
         except (psycopg.Error, OSError, ValueError):
             # Exception text can contain DSNs or data. Emit a fixed message only.
             LOG.warning("control_readiness_dependency_unavailable")
@@ -58,9 +62,12 @@ def create_app(readiness_probe: Callable[[], bool] = database_is_ready, auth_gat
         )
 
     if auth_gateway is not None:
-        mount_staff_routes(app, auth_gateway)
+        mount_staff_routes(app, auth_gateway, orders_enabled=order_repository is not None)
+        if order_repository is not None:
+            mount_order_routes(app, auth_gateway, order_repository)
     return app
 
 
 app = create_app(auth_gateway=(AuthGateway(os.environ.get("CONTROL_PUBLIC_ORIGIN", ""))
-                              if os.environ.get("CONTROL_AUTH_ENABLED") == "1" else None))
+                              if os.environ.get("CONTROL_AUTH_ENABLED") == "1" else None),
+                 order_repository=OrderRepository() if os.environ.get('CONTROL_ORDERS_ENABLED')=='1' else None)

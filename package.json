@@ -3,10 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "test:database": "node --test tests/postgres-foundation.test.cjs"
+    "test:database": "node --test tests/postgres-foundation.test.cjs tests/postgres-orders.test.cjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8"
   }
 }
-

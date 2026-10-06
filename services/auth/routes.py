@@ -7,6 +7,7 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
 from starlette.concurrency import run_in_threadpool
+from services.orders.access import order_access_allowed
 
 from services.auth.gateway import (
     AuthDenied, AuthGateway, AuthUnavailable, COOKIE, ROUTES,
@@ -21,7 +22,7 @@ def error(status: int, detail: str):
     return JSONResponse({"detail": detail}, status_code=status, headers=PRIVATE)
 
 
-def mount_staff_routes(app: FastAPI, gateway: AuthGateway):
+def mount_staff_routes(app: FastAPI, gateway: AuthGateway, orders_enabled=False):
     @app.api_route("/auth/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
     async def authentication(path: str, request: Request):
         fields = ROUTES.get((request.method, path))
@@ -78,7 +79,7 @@ def mount_staff_routes(app: FastAPI, gateway: AuthGateway):
 
     @app.get("/assets/{name}")
     def asset(name: str):
-        allowed = {"control.css": "text/css", "login.js": "application/javascript", "workspace.js": "application/javascript"}
+        allowed = {"control.css": "text/css", "orders.css": "text/css", "login.js": "application/javascript", "workspace.js": "application/javascript", "orders.js": "application/javascript"}
         if name not in allowed:
             return error(404, "Not found")
         return FileResponse(WEB / name, media_type=allowed[name], headers=PRIVATE)
@@ -101,7 +102,7 @@ def mount_staff_routes(app: FastAPI, gateway: AuthGateway):
             user = gateway.identity(session_token(request.headers.get("cookie", "")))
             return JSONResponse({"state": "AUTHENTICATED", "user": {
                 key: user.get(key) for key in ("user_id", "display_name", "operational_profile", "permissions")
-            }}, headers=PRIVATE)
+            }, "capabilities": {"orders": orders_enabled and order_access_allowed(user)}}, headers=PRIVATE)
         except AuthDenied as denied:
             return error(denied.status, "Authentication required" if denied.status == 401 else "Control access required")
         except AuthUnavailable:
