@@ -4,6 +4,15 @@ Status: Settings staged disabled on 2026-10-06 after explicit operator approval
 for SMTP password and Graph private-key transfer. Inbox access and activation
 remain pending.
 
+Pinned dependency, 6 October 2026: the operator reports that mailbox read access
+has been requested and instructs development to move around it for now.
+Status: REQUESTED / AWAITING_EXTERNAL_ACCESS. Collection remains disabled. Do not
+poll the mailbox, request approval again or treat this as a platform-wide stop.
+Resume permission verification when the operator confirms access is available;
+a submitted request is not an effective grant. Continue authentication, business
+migration, local document validation and review-screen development independently.
+See [migration progress and priorities](migration-progress.md).
+
 Verified receipt: `/etc/control/mail/imports/v1-20261006T135759Z-1d36d1f2` on
 CSS-Live, one profile and one profile-history event, bundle integrity verified.
 Directory and import parent are root-owned 0700; all seven files are root-owned

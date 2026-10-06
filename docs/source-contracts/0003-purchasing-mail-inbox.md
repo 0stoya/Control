@@ -7,6 +7,10 @@ acceptance are pending. No mail or ERP writer is cut over by this contract.
 Contract: `purchasing_mail_inbox_v1`. First mailbox selected by the operator:
 `purchasing@chelmsfordsafety.co.uk`, Microsoft 365 Inbox only.
 
+Operator update, 6 October 2026: read access has been requested. Pin collection
+as awaiting external access and continue independent development. The last
+observed read result remains HTTP 403; no new grant or successful read is claimed.
+
 ## Authority and source access
 
 The operator reports that the new server is awaiting MariaDB and Sculptor
