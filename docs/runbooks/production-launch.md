@@ -1,13 +1,13 @@
 # Control V2 production launch configuration
 
-Status: DNS and HTTPS setup endpoint verified on 2026-10-06; staff application pending; Acronis deferred by operator.
+Status: HTTPS staff sign-in and protected shell deployed on 2026-10-06; controlled existing-account acceptance pending; Acronis deferred by operator.
 
 ## Public addresses and DNS
 
 | Purpose | Hostname | State |
 | --- | --- | --- |
 | Existing V1 | app.csscdn.co.uk | Retain during migration |
-| Initial V2 | control.csscdn.co.uk | DNS corrected; HTTPS setup response deployed |
+| Initial V2 | control.csscdn.co.uk | HTTPS sign-in and protected staff shell deployed |
 | Later V2 | control.chelmsfordsafety.co.uk | Selected; DNS availability expected later |
 | V2 server | 85.215.119.154 | Native private foundation deployed |
 
@@ -25,13 +25,17 @@ resolution were checked; Cloudflare and Google returned the new A record.
 External HTTPS probes succeeded over IPv4 and IPv6. See
 [HTTPS setup acceptance](production-https-2026-10-06.md). Keep the V1 record intact.
 
-Nginx now serves the public setup page with HTTPS and HTTP redirection. A
-Let's Encrypt certificate and renewal timer are installed; ports 80/443 are
-allowed for IPv4/IPv6. All application/auth paths currently return the setup
-response with HTTP 503. No application or auth upstream is configured.
-The API and PostgreSQL remain on loopback. Deploy the staff application and
-verify authoritative sign-in, permissions and protected routes before enabling
-their proxy locations. The setup page does not establish staff rollout readiness.
+Nginx now serves the staff sign-in gateway with HTTPS and HTTP redirection.
+A Let's Encrypt certificate and renewal timer are installed; ports 80/443 are
+allowed for IPv4/IPv6. The API and PostgreSQL remain on loopback. HTTPS login
+returns 200; anonymous root redirects to sign-in and session API returns 401.
+Private health and auth-administration routes are unavailable publicly. Protected
+requests freshly validate the V1 authority through a restricted SSH link.
+
+Native synthetic auth, public boundaries, link-outage recovery and previous-release
+rollback checks passed. An existing staff account must still complete normal
+password/authenticator sign-in at V2 to close account acceptance. No business
+screen/import is active. See [staff rollout evidence](staff-auth-2026-10-06.md).
 
 For the later business hostname, prepare DNS and its certificate, switch the
 accepted public-origin and CSRF configuration, and verify sign-in before routing

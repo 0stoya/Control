@@ -1,7 +1,8 @@
 # Shared staff authentication contract v1
 
-Status: Implementing the first V2 staff sign-in slice; deployment and controlled
-existing-account password/MFA acceptance will be recorded separately.
+Status: Implemented and deployed on 6 October 2026. Native synthetic parity,
+public boundary and rollback checks passed; controlled existing-account
+password/MFA acceptance remains pending. See the staff-auth acceptance runbook.
 
 Authority: the existing V1 `css-auth` service and its `css_app.auth` state remain
 the single writer for identity, password/MFA, lockouts, sessions, recovery codes,

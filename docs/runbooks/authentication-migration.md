@@ -81,7 +81,8 @@ proxy. Rate limits, lockouts and auth audit reporting remain in the authority.
 
 Two writable auth copies would independently accept the same TOTP counter,
 consume recovery codes, reset passwords and disable users. Do not operate them
-in parallel. No authentication proxy is enabled in the foundation build.
+in parallel. The original foundation build had no auth proxy. The first staff
+slice now uses the restricted shared gateway; see the dated acceptance below.
 
 ## Eventual auth cutover
 
@@ -116,3 +117,16 @@ in parallel. No authentication proxy is enabled in the foundation build.
 
 The live transfer is not performed by this foundation. No existing password,
 seed, account or cookie has been modified.
+
+## Shared staff gateway deployed: 6 October 2026
+
+The V2 gateway and protected shell were deployed at control.csscdn.co.uk.
+V1 remains the single auth writer. Existing passwords, encrypted seeds and
+recovery records were not exported or recreated. Synthetic native integration
+proved V1 password/MFA/replay/recovery laws and the 64-character opaque cookie
+format. Private-link loss/recovery and application rollback were exercised.
+Existing real-account sign-in acceptance remains pending.
+
+See [the contract](../source-contracts/0004-shared-staff-authentication.md) and
+[deployment/acceptance record](staff-auth-2026-10-06.md). Business authority and
+eventual auth-server transfer remain separate decisions.

@@ -11,7 +11,7 @@ versioned projections.
 
 ## Current status
 
-**Foundation deployed privately; staff application rollout pending.** Control V2 has
+**Staff sign-in and protected shell deployed; existing-account acceptance pending.** Control V2 has
 native Ubuntu 24.04 deployment scripts, a running private FastAPI health service,
 checksum-verified PostgreSQL migrations, an immutable evidence envelope/storage
 contract and focused foundation tests. No business capability is deployed or
@@ -22,16 +22,18 @@ and MariaDB/OGL remains historical and reconciliation evidence.
 The production target is `85.215.119.154`, using native systemd services with
 **no Docker**. Root SSH is secured with public keys, password SSH is disabled,
 and the firewall permits rate-limited SSH plus public HTTP/HTTPS. The API and
-database remain private. Staff sign-in
-will preserve existing V1 password hashes and authenticator enrolments through
-one authentication authority during migration.
+database remain private. The staff gateway uses the existing single V1 auth
+authority, preserving existing passwords and authenticator enrolments. Public
+boundaries, native synthetic auth and rollback passed; an existing staff member
+must still verify sign-in directly at the V2 hostname.
 
 The initial public hostname is `control.csscdn.co.uk`; the later business
 hostname is `control.chelmsfordsafety.co.uk`. IONOS Acronis is deferred at the
 operator's request. Daily local PostgreSQL backup and restore checks remain in
 the migration plan; off-server protection is not configured.
-DNS and the public HTTPS setup page are verified; authenticated staff rollout
-remains pending. See [HTTPS acceptance](docs/runbooks/production-https-2026-10-06.md).
+DNS, HTTPS and the public staff gateway are verified. See
+[staff sign-in acceptance](docs/runbooks/staff-auth-2026-10-06.md) and the earlier
+[HTTPS foundation acceptance](docs/runbooks/production-https-2026-10-06.md).
 See [launch configuration](docs/runbooks/production-launch.md) and the
 [V2 redesign brief](docs/product/v2-redesign.md) for the recorded decisions,
 existing design evidence and proposed delivery sequence.

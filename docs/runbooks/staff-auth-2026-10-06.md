@@ -1,7 +1,7 @@
 # Staff sign-in and V2 shell acceptance
 
-6 October 2026. Public activation and existing-staff acceptance are pending until
-the host checks below are recorded. No business migration belongs to this step.
+6 October 2026, 16:12 BST. Staff gateway and protected shell are deployed.
+Existing-staff acceptance is pending. No business migration belongs to this step.
 
 ## Implemented and tested
 
@@ -52,9 +52,29 @@ V1 auth state remains current through application rollback.
 
 ## Host acceptance
 
-Pending: record release/commit, LIVE/READY, authority outage fail-closed, link
-recovery, previous-release rehearsal, public login/assets, anonymous redirect,
-API denial, private endpoint denial, wrong-origin denial and security headers.
+Deployed commit: e26a7f92ae0c09a63534399d2bdb9d325dce1da8.
+Immutable release: /srv/control/releases/staff-auth-20261006-e26a7f92ae0c.
+Previous release: /srv/control/releases/foundation-20261006-c2126cc8e286.
+Root-only receipt: /etc/control/rollback/staff-auth-20261006-e26a7f92ae0c/deployment-receipt.json.
+
+Observed host checks passed:
+- Private readiness, authentication authority health and link recovery.
+- Stopped V2 bridge: readiness and a protected request both returned 503; after
+  restart readiness returned 200. No offline/cached successful identity.
+- Previous release was restored and restarted privately, with its absent login
+  route verified, then the new staff release was restored.
+- HTTPS login/assets 200, anonymous root 303 to sign-in, API session 401.
+- Public private-health/auth-health/admin endpoints 404; wrong-origin login 403.
+- No-store and CSP headers verified. nginx syntax and reload verified.
+- Public login was checked in the in-app browser: layout correct, expected fields
+  available and no script errors reported.
+- API, auth bridge, nginx, PostgreSQL, fail2ban and control-backup.timer active.
+  Auth environment root-only 0600. Database still has only 0001_foundation.sql
+  and zero source observations.
+
+The first attempt's automatic rollback was also observed independently: previous
+foundation symlink, setup proxy, absent staff auth environment and active services.
+This is application/transport acceptance, not a business authority cutover.
 
 ## Staff acceptance
 
