@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 from typing import Callable
 
@@ -10,6 +11,8 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 from packages.migrations import migration_manifest
+from services.auth.gateway import AuthGateway
+from services.auth.routes import mount_staff_routes
 
 LOG = logging.getLogger("control.health")
 MIGRATIONS = Path(__file__).resolve().parents[2] / "migrations"
@@ -31,7 +34,7 @@ def database_is_ready() -> bool:
         return applied == migration_manifest(MIGRATIONS)
 
 
-def create_app(readiness_probe: Callable[[], bool] = database_is_ready) -> FastAPI:
+def create_app(readiness_probe: Callable[[], bool] = database_is_ready, auth_gateway: AuthGateway | None = None) -> FastAPI:
     app = FastAPI(title="Control V2 foundation", docs_url=None, redoc_url=None, openapi_url=None)
 
     @app.get("/health/live")
@@ -42,6 +45,8 @@ def create_app(readiness_probe: Callable[[], bool] = database_is_ready) -> FastA
     def ready() -> JSONResponse:
         try:
             ready_state = readiness_probe()
+            if ready_state and auth_gateway is not None:
+                ready_state = auth_gateway.healthy()
         except (psycopg.Error, OSError, ValueError):
             # Exception text can contain DSNs or data. Emit a fixed message only.
             LOG.warning("control_readiness_dependency_unavailable")
@@ -52,7 +57,10 @@ def create_app(readiness_probe: Callable[[], bool] = database_is_ready) -> FastA
             headers={"Cache-Control": "no-store"},
         )
 
+    if auth_gateway is not None:
+        mount_staff_routes(app, auth_gateway)
     return app
 
 
-app = create_app()
+app = create_app(auth_gateway=(AuthGateway(os.environ.get("CONTROL_PUBLIC_ORIGIN", ""))
+                              if os.environ.get("CONTROL_AUTH_ENABLED") == "1" else None))
