@@ -28,13 +28,14 @@ solely at V1; the operator confirmed existing-account password/MFA sign-in.
 | --- | --- | --- | --- |
 | 1 | Existing staff sign-in and protected V2 shell | Implemented/deployed; existing-account password/MFA confirmed | Operator confirmed existing password/authenticator at V2; V1 remains the single auth authority |
 | 2 | First business schema, intake and useful screen | Implementation pending; mapping/key proof complete for its accepted scope | Additive order/account/line migration, versioned V1 export adapter, replay/checkpoint tests, a bounded reconciled import and read-only Sales Order Timeline |
-| 3 | Direct MariaDB/Sculptor access from V2 | External whitelisting pending, as reported by the operator | Use V1 for controlled discovery and existing captures; preserve authority, source timestamps and manifested export boundaries |
+| 3 | Direct MariaDB/Sculptor access from V2 | Connection probes passed: MariaDB authenticated read over pinned TLS; Sculptor protocol/dictionary read | Configure durable trust/least-privilege credentials and accepted collector ownership before recurring intake; preserve V1 authority |
 | 4 | Delivery/history coverage and business semantics | Data acceptance pending for some overlays | Prove missing direct delivery-note population, historical gaps, units/currencies and amendment rules before enabling the affected metrics; retain explicit gaps in the first timeline |
 | Parked | Purchasing mailbox read access | Operator says REQUESTED; last observed read HTTP 403 | Local PDF candidates, comparison, review workflow and inbox UI preparation. Resume scoped access tests once availability is confirmed; no automatic polling |
 
 Mailbox access blocks automatic mail collection, not the main platform build.
-Source whitelisting blocks moving direct collectors, not design or V1-backed
-intake. The first demonstrated data import is now the largest engineering gate to a
+Network access and the tested source reads now pass from V2. Recurring collector
+configuration, ownership and data-coverage acceptance remain separate from these
+probes and from V1-backed intake. The first demonstrated data import is now the largest engineering gate to a
 useful business screen; real-account password/MFA sign-in is confirmed. Remaining supplier size/unit alias approval is
 a Purchasing validation gate, not a reason to block all domain development.
 
@@ -54,6 +55,7 @@ calendar estimate is asserted before this first end-to-end business slice exists
 
 - [Foundation acceptance](production-foundation-2026-10-06.md)
 - [Staff sign-in deployment](staff-auth-2026-10-06.md)
+- [MariaDB/Sculptor source access](source-connectivity-2026-10-06.md)
 - [Authentication continuity](authentication-migration.md)
 - [Database migration](database-migration.md)
 - [Order/line identity proof](../migration/0002-identity-proof-2026-10-06.md)

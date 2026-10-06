@@ -153,8 +153,11 @@ variant/unit mappings and independent delivery exceptions. Local coordinate-awar
 candidate extraction and comparison tests are implemented; mail collection and
 authenticated UI are pending. [Mail migration](docs/runbooks/mail-migration.md)
 records protected disabled settings staging and the unresolved inbox read grant.
-While V2 awaits MariaDB/Sculptor access, use V1 for controlled discovery/exports
-under existing authority and provenance contracts.
+Direct source tests from V2 now pass: MariaDB authenticated read over pinned TLS
+and Sculptor protocol/dictionary read. See
+[source access acceptance](docs/runbooks/source-connectivity-2026-10-06.md).
+Continue controlled V1 discovery/exports until collector ownership, durable trust
+and source-population acceptance are ready.
 
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:

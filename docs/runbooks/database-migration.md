@@ -91,8 +91,11 @@ Reuse the existing controlled captures rather than introducing competing readers
 
 ## Schema migration procedure
 
-The operator reports on 2026-10-06 that V2 is not yet whitelisted for MariaDB or
-Sculptor. Discovery can run through the existing V1 host, using its accepted
+Earlier on 2026-10-06, the operator reported that V2 was not yet whitelisted for
+MariaDB/Sculptor. Later direct V2 probes passed: authenticated MariaDB SELECT/read
+over pinned TLS and Sculptor protocol/dictionary access. See
+[source access acceptance](source-connectivity-2026-10-06.md). Durable source
+credentials/trust and collector/population acceptance remain separate. Discovery can run through the existing V1 host, using its accepted
 captures and retained MariaDB evidence. Any V1-to-V2 export must keep the original
 authority, readers, keys, timestamps and immutable manifest; do not assume a new
 current source grant or create a competing collector. The
