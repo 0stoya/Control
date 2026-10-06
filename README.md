@@ -11,11 +11,28 @@ versioned projections.
 
 ## Current status
 
-**Foundation planning.** No V2 capability is operationally authoritative yet.
-Sculptor/Profit+ remains the ERP authority, the existing CSS platform remains the
-calculation and operational authority during migration, and MariaDB/OGL remains
-historical and reconciliation evidence until each dependency is explicitly
-retired.
+**Foundation deployed privately; staff application rollout pending.** Control V2 has
+native Ubuntu 24.04 deployment scripts, a running private FastAPI health service,
+checksum-verified PostgreSQL migrations, an immutable evidence envelope/storage
+contract and focused foundation tests. No business capability is deployed or
+operationally authoritative yet. Sculptor/Profit+ remains the ERP authority,
+the existing CSS platform remains the calculation and operational authority,
+and MariaDB/OGL remains historical and reconciliation evidence.
+
+The production target is `85.215.119.154`, using native systemd services with
+**no Docker**. Root SSH is secured with public keys, password SSH is disabled,
+and the firewall permits rate-limited SSH only during setup. Staff sign-in
+will preserve existing V1 password hashes and authenticator enrolments through
+one authentication authority during migration.
+
+Start with [first root key login](docs/runbooks/ssh-key-first-login.md), then
+[the production server runbook](docs/runbooks/production-server.md). Read
+[authentication continuity](docs/runbooks/authentication-migration.md),
+[ADR 0002](docs/architecture/0002-native-production-foundation.md) and
+[the foundation evidence contract](docs/source-contracts/0001-foundation-evidence.md).
+
+See [the deployed foundation and acceptance record](docs/runbooks/production-foundation-2026-10-06.md)
+for the installed release, native tests, backup restore and remaining public rollout gates.
 
 ## Goals
 
@@ -260,3 +277,23 @@ The existing implementation, evidence, source research and accepted business
 rules remain in [0stoya/CSS](https://github.com/0stoya/CSS). Control V2 should
 reference that evidence while keeping its own domain contracts and architecture
 decisions concise and current.
+
+## Foundation development
+
+Use Python 3.12. The native Linux service uses local peer authentication; local
+health tests can run without a database. No source systems are contacted.
+
+```bash
+python -m venv .venv
+# Linux: source .venv/bin/activate; Windows: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m pip check
+python -m unittest discover -s tests -v
+npm ci --ignore-scripts
+npm run test:database
+```
+
+The Node dependency is test-only: it executes PostgreSQL SQL in PGlite to prove
+constraints, append-only evidence and runtime privilege isolation. Production
+uses native PostgreSQL 16. OS peer authentication, systemd, RAID, firewall, TLS,
+backup restore and live auth migration require separate host acceptance.
