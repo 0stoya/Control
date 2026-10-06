@@ -4,6 +4,11 @@ Status: Proposed relational design and implementation contract; source checkpoin
 and focused live schema inventory observed on 2026-10-06. No business SQL or data
 import is applied by this document.
 
+Update: [Identity proof on 2026-10-06](0002-identity-proof-2026-10-06.md) validates
+the native key shapes and scoped commercial-line mapping. Logical line references
+survive native item renumbering; native-position aliases belong to revisions.
+Direct delivery-note row parity and uncovered historical populations remain pending.
+
 ## Recorded boundaries
 
 | Boundary | Observed value | Meaning |
@@ -23,6 +28,9 @@ These checkpoints do not freeze business data or attest that every feature in
 the local checkout is running in V1. An actual export needs a consistent snapshot,
 registered database/source instance, population and continuation watermark.
 Neither a V1 deployment nor a V1 database change was made for this inspection.
+The later key audit observed the live repository at the local `16bb3c2d` checkpoint
+at 12:21:44 UTC, with matching hashes for all seven inspected reader paths.
+The earlier runtime/web observations above remain dated evidence.
 
 ## Proposed destination and treatment
 
@@ -33,7 +41,7 @@ Neither a V1 deployment nor a V1 database change was made for this inspection.
 | `crcust` / `latest_crm_company` | `crm.company`, company source identity and evidenced company-account association | `crmcref` identifies the CRM company; payload `cref` is a ledger reference |
 | `crcontact` / `latest_crm_contact` | `crm.contact` with original company/contact identity | Preserve `(crmcref, contactno)`; contact names/emails do not join identities |
 | Ordering customer reference, reviewed account links | `crm.account`, account source identities, relationship evidence/current projection | Keep separate ordering accounts; parent, invoice and price-source links remain distinct |
-| Native orders / orditem snapshots | `sales.order`, `sales.order_line` and explicit source identities | Durable V2 IDs with scoped source keys; resolve line identifiers before joining |
+| Native orders / orditem snapshots | `sales.order`, `sales.order_line` and explicit source identities | Durable V2 IDs with scoped logical references; native item aliases are revision-scoped |
 | Complete/hot BWMS rows and transitions | `fulfilment.order_event` + event input links | Preserve native row grain and both comparison endpoints; exclude duplicate coverage |
 | Delivery-note capture/header/line observations | Separate delivery-note evidence lane in `fulfilment.order_event` | Retain full seven-field semantic identity, corrections and currency policy |
 | `fulfilment.current_despatch_line_fact` | Retained settled evidence and separate settled-despatch projection | Preserve exact q31/source identity and provenance; current view is not the evidence ledger |
@@ -60,6 +68,11 @@ purchasing, invoices or Promise output tables at once.
 - `uniqueno`, `itemno`, snapshot `line_no` and V1 workflow `order_number`
   remain separately named identifiers. No arithmetic, positional or equality
   assumption may convert one into another.
+- In the proved commercial-line population, scoped order plus `uniqueno`
+  identifies the operational line reference. Persist its V2 ID separately.
+  Map native `(ordno, itemno)` per exact revision: retained history proves
+  both renumbering and native-slot reuse. Reject ambiguous aliases; do not
+  infer lifecycle or kit roles from this identity law.
 - A current/archive move retains the canonical order ID only after an accepted
   cross-file identity mapping proves continuity. An unresolved alias is retained
   as unmatched evidence rather than guessed.
@@ -92,6 +105,7 @@ erDiagram
     SALES_ORDER_LINE ||--o{ SALES_LINE_SOURCE_IDENTITY : identified_by
     SALES_ORDER_LINE ||--o{ SALES_ORDER_LINE_REVISION : revised_by
     SALES_ORDER_REVISION ||--o{ SALES_ORDER_LINE_REVISION : snapshot_membership
+    SALES_ORDER_LINE_REVISION ||--o{ SALES_LINE_NATIVE_IDENTITY : native_position
     SOURCE_OBSERVATION ||--o{ ORDER_REVISION_INPUT : supports
     SALES_ORDER_REVISION ||--|{ ORDER_REVISION_INPUT : supported_by
     SALES_ORDER ||--o{ FULFILMENT_ORDER_EVENT : has
@@ -143,9 +157,11 @@ erDiagram
 ```
 
 A line-revision FK must prove that its line and header revision belong to the
-same order. An event's optional line FK must belong to its order. Source identities
-are unique by namespace/key kind/canonical key; explicit entity FKs avoid a
-polymorphic link that the database cannot validate. Append-only events are unique
+same order. An event's optional line FK must belong to its order. Header and
+logical source identities are unique by namespace/key kind/canonical key; explicit entity FKs avoid a
+polymorphic link that the database cannot validate. Logical line identities are
+scoped to the order. Native line identities are unique within their exact
+revision; native item slots are not lifetime-unique line aliases. Append-only events are unique
 by derivation key and translator version. A selected projection generation uses
 one accepted interpretation version per lane; replaying or upgrading translators
 does not add both interpretations into current totals.
@@ -173,14 +189,16 @@ No invoice, payment or revenue lane is enabled by this first mapping.
 
 ## Required evidence before enabling each lane
 
-1. Prove header/line/customer scope and the `itemno` to `uniqueno` mapping
-   over the accepted population, including kit/component and amended/split lines.
-   Unresolved mappings remain counted and visible.
+1. Scoped header/commercial-line identities and renumbering are validated in
+   the [identity proof](0002-identity-proof-2026-10-06.md). Retain uncovered
+   orders/historical lines explicitly; kit/component roles are not available in
+   the curated line payload and require separate evidence.
 2. Reconcile delivery-note semantic identity
    `(delno, delsfx, printind, ordno, itemno, kitind, uniqueno)` with V1's
-   stored PK, which omits `unique_no` after `capture_id`. Inspect native
-   schema/reader behavior and aggregate collisions; absence of stored collisions
-   alone cannot prove records were never collapsed before insertion.
+   stored PK. Native schema and reader proof shows that `unique_no` is a field
+   outside the primary key, with no silent duplicate collapse in the reader.
+   The observed settled population has unique seven-field identities. Require
+   nonempty direct capture/value parity before activating a combined lane.
 3. Prove complete/hot BWMS overlap and counter reset/correction handling.
    Two different transition IDs may still describe the same physical movement.
 4. Record dataset-specific currency, units, native date/timezone and freshness/

@@ -1,0 +1,461 @@
+{
+  "schema_version": "v1_identity_reconciliation_v1",
+  "source_checkpoint": "16bb3c2d1e14b59682a88f91e0fd7a98df1e1c12",
+  "database": "css_app",
+  "execution": {
+    "mode": "REPEATABLE READ READ ONLY",
+    "statement_timeout_seconds": 25,
+    "lock_timeout_seconds": 2,
+    "production_writes": 0,
+    "direct_sculptor_reads": 0,
+    "source_payloads_exported": 0,
+    "source_keys_exported": 0
+  },
+  "live_readers": {
+    "files": [
+      {
+        "exists": true,
+        "path": "services/connector/sculptor_delivery_note_live.py",
+        "sha256": "95a713ccc35ae897e17f1c2de6c0e673bea1b4873d439210b194d1e0e1ede117"
+      },
+      {
+        "exists": true,
+        "path": "services/connector/sculptor_delivery_note_runtime.py",
+        "sha256": "747aee5217b2cbb25f5bffc79c9c539457c72977ce17629388f58243409a7ee0"
+      },
+      {
+        "exists": true,
+        "path": "services/connector/sculptor_delivery_note_templates.py",
+        "sha256": "27f11f4411e43e99109e51788d8d2065aad02ffa7f214de7587dff8e443dd925"
+      },
+      {
+        "exists": true,
+        "path": "wms/sc/control-sculptor-observation2/source/Sculptor59DeliveryNoteBatch.java",
+        "sha256": "f98cd89eb2618fb30d832a2b0a6f2d1cd6e7d767a868c8434878e56ebc8b9ebc"
+      },
+      {
+        "exists": true,
+        "path": "services/connector/sculptor_business_line_discovery_templates.py",
+        "sha256": "c58ea5e40f0a6ac77ecdd2278f84f93e9bc2cd6d5ed4344401cf4cf0e7dab298"
+      },
+      {
+        "exists": true,
+        "path": "sql/postgres/017_sla_f1_fresh_sales_order_input.sql",
+        "sha256": "4020c7b3918d5a325cf502e951a61e4cb924640636bb12386c92c717b76f64bc"
+      },
+      {
+        "exists": true,
+        "path": "config/sculptor_live_source_contract_v1.json",
+        "sha256": "f372efc68770c5a20029ffc0194028251e13eed04d47baba4410beb9d5515aca"
+      }
+    ],
+    "inspected_path_changes": "",
+    "observed_at": "2026-10-06T12:21:44.384504+00:00",
+    "repository_revision": "16bb3c2d1e14b59682a88f91e0fd7a98df1e1c12"
+  },
+  "checks": [
+    {
+      "script": "current-sales-order-identity.sql",
+      "result": {
+        "check": "current_sales_order_identity_v1",
+        "observed_at": "2026-10-06T12:22:51.328235+00:00",
+        "population": "all current SALES_ORDER header projection rows and their selected immutable snapshots",
+        "header_counts": {
+          "total": 5707,
+          "selected_sources": {
+            "SCULPTOR_LIVE": 4181,
+            "OGL_MIRROR_CURRENT": 1526
+          },
+          "missing_snapshot": 1526,
+          "wrong_snapshot_kind": 0,
+          "header_evidence_invalid": 0,
+          "snapshot_source_key_disagrees": 0,
+          "snapshot_line_count_disagrees": 0,
+          "projected_line_count_disagrees": 0,
+          "keyset_basis_disagrees": 0,
+          "order_numbers_with_multiple_accounts": 0,
+          "oldest_source_observed_at": "2026-09-12T10:26:59.5264+00:00",
+          "newest_source_observed_at": "2026-10-06T12:12:33.447613+00:00"
+        },
+        "line_counts": {
+          "total": 19339,
+          "source_or_identity_invalid": 0,
+          "source_key_disagrees": 0,
+          "missing_or_invalid_uniqueno": 0,
+          "itemno_equals_uniqueno": 17801,
+          "itemno_differs_uniqueno": 1538,
+          "itemno_under_1000": 19339,
+          "itemno_at_least_1000": 0,
+          "nonblank_kit_indicator": 0,
+          "unique_alias_groups": 19339,
+          "ambiguous_unique_alias_groups": 0,
+          "ambiguous_unique_alias_skus": 0
+        },
+        "schema_hashes": [
+          "0c42ba9faf3a7382fc42cbde8c15dd2118f7311af880b571cb392264acc9b8bb"
+        ],
+        "payloads_emitted": false
+      },
+      "script_sha256": "965aead76647dd12335d8534d7c9bddf7aedb929b8777da7d749eca050386ab0"
+    },
+    {
+      "script": "retained-sales-order-identity.sql",
+      "result": {
+        "check": "retained_sales_order_identity_v1",
+        "observed_at": "2026-10-06T12:25:31.157202+00:00",
+        "population": "all retained SALES_ORDER snapshots and their exact line membership",
+        "snapshot_count": 16847,
+        "oldest_snapshot": "2026-09-11T08:18:10.32035+00:00",
+        "newest_snapshot": "2026-10-06T12:24:10.839924+00:00",
+        "order_numbers_with_multiple_accounts": 0,
+        "line_counts": {
+          "total": 134528,
+          "source_or_identity_invalid": 0,
+          "source_key_disagrees": 0,
+          "missing_or_invalid_uniqueno": 0,
+          "itemno_equals_uniqueno": 73086,
+          "itemno_differs_uniqueno": 61442,
+          "nonblank_kit_indicator": 0,
+          "revision_alias_ambiguous": 0,
+          "historical_alias_changes_native_item": 303,
+          "historical_alias_changes_sku": 0,
+          "historical_native_changes_uniqueno": 364,
+          "historical_native_changes_sku": 351
+        },
+        "line_schema_hashes": [
+          "e944a8323287af376ef0bb64b6ac931623355bcd5e505713ef4d03fcc8a17c37"
+        ],
+        "payloads_emitted": false
+      },
+      "script_sha256": "815582c653c2ba24e6b1d9570d80096b6888a20ddf1356dcab21243dffb23e93"
+    },
+    {
+      "script": "retained-delivery-note-identity.sql",
+      "result": {
+        "check": "retained_delivery_note_identity_v1",
+        "observed_at": "2026-10-06T12:23:40.010403+00:00",
+        "population": "all retained direct delivery-note observations and capture metadata",
+        "capture_counts": {
+          "total": 8124,
+          "nonempty": 0,
+          "unsafe_counters": 0,
+          "oldest_observed_at": "2026-09-22T08:50:48.157643+00:00",
+          "newest_observed_at": "2026-10-06T12:23:35.824332+00:00",
+          "latest_nonempty_observed_at": null,
+          "schema_pairs": [
+            {
+              "header": "2fc414252288c5410558b7b98e38462e0021be684ec46a12bb825fe6f8a325ce",
+              "line": "a3711a0e0f67d48696afd86f10b66bd1b593d90da98d40195c8ee5fa9084b0fb",
+              "captures": 8124
+            }
+          ]
+        },
+        "line_counts": {
+          "total": 0,
+          "native_identity_groups": 0,
+          "native_identity_changes_uniqueno": 0,
+          "native_identity_changes_sku": 0,
+          "header_customer_disagrees": 0,
+          "itemno_equals_uniqueno": 0,
+          "itemno_differs_uniqueno": 0,
+          "zero_uniqueno": 0,
+          "nonblank_kit_indicator": 0,
+          "itemno_at_least_1000": 0,
+          "order_unique_groups": 0,
+          "order_unique_multiple_native_items": 0,
+          "order_unique_multiple_skus": 0,
+          "latest_nonempty_rows": 0
+        },
+        "payloads_emitted": false
+      },
+      "script_sha256": "2fc56f7922c68fe7d65b646f04fe8301f5b3c844e80c701a9c1793bc1ae59824"
+    },
+    {
+      "script": "settled-delivery-identity.sql",
+      "result": {
+        "check": "settled_delivery_identity_v1",
+        "observed_at": "2026-10-06T12:27:47.42878+00:00",
+        "population": "current effective settled q31 view, including accepted rolling-day publication",
+        "rows": 32112,
+        "oldest_business_date": "2026-07-27",
+        "newest_business_date": "2026-10-05",
+        "missing_semantic_key_fields": 0,
+        "semantic_identity_groups": 32112,
+        "duplicate_semantic_groups": 0,
+        "semantic_groups_multiple_skus": 0,
+        "native_groups_multiple_uniqueno": 0,
+        "itemno_equals_uniqueno": 29650,
+        "itemno_differs_uniqueno": 2462,
+        "zero_uniqueno": 0,
+        "nonblank_kit_indicator": 14598,
+        "itemno_at_least_1000": 0,
+        "current_snapshot_resolution": {
+          "exact_logical_matches": 10795,
+          "matched_sku_disagrees": 0,
+          "matched_native_position_changed": 200,
+          "unresolved_with_current_order": 1193,
+          "no_current_captured_order": 20124,
+          "naive_unique_to_item_hits_another_line": 693
+        },
+        "payloads_emitted": false
+      },
+      "script_sha256": "6a28c683dbe6b430754954a018e1eff91e6311d8336308133ac98a192617acb4"
+    },
+    {
+      "script": "settled-to-retained-line.sql",
+      "result": {
+        "check": "settled_to_retained_logical_line_v1",
+        "observed_at": "2026-10-06T12:30:54.935022+00:00",
+        "population": "current effective settled q31 view versus all retained SALES_ORDER snapshot line identities",
+        "settled_rows": 32112,
+        "historical_logical_identities": 19702,
+        "matched": 10959,
+        "unresolved": 21153,
+        "matched_ambiguous_sku": 0,
+        "matched_sku_disagrees": 0,
+        "delivery_item_not_in_captured_positions": 195,
+        "matched_to_line_with_renumber_history": 38,
+        "payloads_emitted": false
+      },
+      "script_sha256": "16b04523b52ae1e9336d01133c99957d4fb1d06acc4a0c5d8e3178ecd0c68bd9"
+    },
+    {
+      "script": "identity-coverage.sql",
+      "result": {
+        "check": "missing_fields_and_projection_row_identity_v1",
+        "observed_at": "2026-10-06T12:32:31.648148+00:00",
+        "retained_sales_lines": 134544,
+        "kitind_field_absent": 134544,
+        "kitind_field_null": 0,
+        "settled_rows": 32112,
+        "duplicate_sync_row_id_groups": 708,
+        "rows_in_duplicate_sync_row_id_groups": 2651,
+        "max_rows_per_sync_row_id": 4,
+        "payloads_emitted": false
+      },
+      "script_sha256": "01376a3726680ebf4b29e94c1abc37428f10605bbc3012a0c0f46d680153ac1e"
+    }
+  ],
+  "notes": [
+    "Queries use separate consistent transactions at the reported times; ingestion continues between queries.",
+    "Counts are scope-specific evidence, not a frozen export watermark or production authority cutover.",
+    "Current orders selected from OGL and missing snapshots are retained as uncovered; not empty, cancelled or archived.",
+    "The nonblank_kit_indicator metric for order snapshots cannot classify kit rows because kitind is absent from their curated payload; see identity-coverage.sql.",
+    "Direct delivery-note line population is empty, so no direct-versus-settled value or identity parity is claimed.",
+    "Settled rows unresolved against snapshots remain retained evidence requiring historical coverage; do not invent order-line joins."
+  ],
+  "source_metadata": {
+    "frozen_schema_layouts": [
+      {
+        "dataset": "orders",
+        "fixture_path": "/usr/testdata/data/orders",
+        "fixture_schema_sha256": "0c42ba9faf3a7382fc42cbde8c15dd2118f7311af880b571cb392264acc9b8bb",
+        "primary_fields": [
+          {
+            "length": 6,
+            "name": "cref",
+            "offset": 0
+          },
+          {
+            "length": 4,
+            "name": "ordno",
+            "offset": 6
+          }
+        ],
+        "primary_key_length": 10,
+        "record_length": 1408,
+        "uniqueno_field": [
+          {
+            "length": 2,
+            "name": "uniqueno",
+            "offset": 387
+          }
+        ]
+      },
+      {
+        "dataset": "orditem",
+        "fixture_path": "/usr/testdata/data/orditem",
+        "fixture_schema_sha256": "e944a8323287af376ef0bb64b6ac931623355bcd5e505713ef4d03fcc8a17c37",
+        "primary_fields": [
+          {
+            "length": 4,
+            "name": "ordno",
+            "offset": 0
+          },
+          {
+            "length": 2,
+            "name": "itemno",
+            "offset": 4
+          }
+        ],
+        "primary_key_length": 6,
+        "record_length": 748,
+        "uniqueno_field": [
+          {
+            "length": 2,
+            "name": "uniqueno",
+            "offset": 274
+          }
+        ]
+      },
+      {
+        "dataset": "orddelnthdr",
+        "fixture_path": "/usr/testdata/data/orddelnthdr",
+        "fixture_schema_sha256": "6213334975bed525ca14d4556fb34d765074d88b709a074f154175d71a826570",
+        "primary_fields": [
+          {
+            "length": 1,
+            "name": "printind",
+            "offset": 0
+          },
+          {
+            "length": 4,
+            "name": "delno",
+            "offset": 1
+          },
+          {
+            "length": 1,
+            "name": "delsfx",
+            "offset": 5
+          },
+          {
+            "length": 4,
+            "name": "ordno",
+            "offset": 6
+          }
+        ],
+        "primary_key_length": 10,
+        "record_length": 806,
+        "uniqueno_field": []
+      },
+      {
+        "dataset": "orddelnt",
+        "fixture_path": "/usr/testdata/data/orddelnt",
+        "fixture_schema_sha256": "58be3f1981d8d21c4bce61f3beb1cf0e798869d4420f1a1492cf3f8d2cc52567",
+        "primary_fields": [
+          {
+            "length": 4,
+            "name": "delno",
+            "offset": 0
+          },
+          {
+            "length": 1,
+            "name": "delsfx",
+            "offset": 4
+          },
+          {
+            "length": 4,
+            "name": "ordno",
+            "offset": 5
+          },
+          {
+            "length": 2,
+            "name": "itemno",
+            "offset": 9
+          },
+          {
+            "length": 1,
+            "name": "kitind",
+            "offset": 11
+          }
+        ],
+        "primary_key_length": 12,
+        "record_length": 912,
+        "uniqueno_field": [
+          {
+            "length": 2,
+            "name": "uniqueno",
+            "offset": 423
+          }
+        ]
+      },
+      {
+        "dataset": "ordpickbwms",
+        "fixture_path": "/usr/testdata/data/ordpickbwms",
+        "fixture_schema_sha256": "65810dd96f1cc59f0220ba8368142277ed20c5e9bb16c12338329fe994572028",
+        "primary_fields": [
+          {
+            "length": 4,
+            "name": "pckno",
+            "offset": 0
+          },
+          {
+            "length": 1,
+            "name": "pcksfx",
+            "offset": 4
+          },
+          {
+            "length": 4,
+            "name": "ordno",
+            "offset": 5
+          },
+          {
+            "length": 2,
+            "name": "itemno",
+            "offset": 9
+          },
+          {
+            "length": 1,
+            "name": "kitind",
+            "offset": 11
+          },
+          {
+            "length": 2,
+            "name": "lineno",
+            "offset": 12
+          },
+          {
+            "length": 4,
+            "name": "batchno",
+            "offset": 14
+          },
+          {
+            "length": 6,
+            "name": "binno",
+            "offset": 18
+          }
+        ],
+        "primary_key_length": 24,
+        "record_length": 128,
+        "uniqueno_field": [
+          {
+            "length": 2,
+            "name": "uniqueno",
+            "offset": 24
+          }
+        ]
+      }
+    ],
+    "reader_hashes": [
+      {
+        "path": "services/connector/sculptor_delivery_note_live.py",
+        "source_commit_sha256": "95a713ccc35ae897e17f1c2de6c0e673bea1b4873d439210b194d1e0e1ede117"
+      },
+      {
+        "path": "services/connector/sculptor_delivery_note_runtime.py",
+        "source_commit_sha256": "747aee5217b2cbb25f5bffc79c9c539457c72977ce17629388f58243409a7ee0"
+      },
+      {
+        "path": "services/connector/sculptor_delivery_note_templates.py",
+        "source_commit_sha256": "27f11f4411e43e99109e51788d8d2065aad02ffa7f214de7587dff8e443dd925"
+      },
+      {
+        "path": "wms/sc/control-sculptor-observation2/source/Sculptor59DeliveryNoteBatch.java",
+        "source_commit_sha256": "f98cd89eb2618fb30d832a2b0a6f2d1cd6e7d767a868c8434878e56ebc8b9ebc"
+      },
+      {
+        "path": "services/connector/sculptor_business_line_discovery_templates.py",
+        "source_commit_sha256": "c58ea5e40f0a6ac77ecdd2278f84f93e9bc2cd6d5ed4344401cf4cf0e7dab298"
+      },
+      {
+        "path": "sql/postgres/017_sla_f1_fresh_sales_order_input.sql",
+        "source_commit_sha256": "4020c7b3918d5a325cf502e951a61e4cb924640636bb12386c92c717b76f64bc"
+      },
+      {
+        "path": "config/sculptor_live_source_contract_v1.json",
+        "source_commit_sha256": "f372efc68770c5a20029ffc0194028251e13eed04d47baba4410beb9d5515aca"
+      }
+    ]
+  },
+  "live_reader_hashes_match_pinned_commit": true
+}

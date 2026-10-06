@@ -4,6 +4,11 @@ Status: Proposed; grounded in the completed CSS source checkpoint and focused
 live metadata inventory on 2026-10-06. Adapter, business migrations, translators,
 API and UI are not implemented or deployed by this contract.
 
+Update: [Scoped key proof](../migration/0002-identity-proof-2026-10-06.md)
+validates commercial-line/native key mapping and delivery key shape. Local
+identity safeguards and synthetic regressions are implemented. Direct
+delivery-note row parity and full historical coverage are still pending.
+
 Contract identifier: `sales_order_timeline_v1`.
 
 Use the [field/entity map and pinned source evidence](../migration/0001-sales-order-map.md)
@@ -30,6 +35,10 @@ claim to cover all orders.
 Resolve native header/line keys exactly as recorded in the entity map. Retain
 CRM company and ordering-account identities separately. A line alias requires
 proof; unresolved `itemno` / `uniqueno` joins are not approximate matches.
+For the proved commercial-line scope, use order plus `uniqueno` as the logical
+reference and retain native `(ordno, itemno)` per revision. Native item slots
+are reused and renumbered; they cannot own a lifetime-unique canonical line ID.
+Each accepted revision must have unambiguous logical aliases and exact ownership.
 
 The adapter must register a stable V1 database identity epoch; a restore that
 forks history or reuses sequences cannot silently inherit the same namespace.
@@ -53,6 +62,9 @@ identity and bytes. Its identity includes the saved snapshot ID. Re-importing
 that snapshot reuses those IDs. A later observation of identical business values
 is a new observation at its own boundary. Export batch IDs and newly generated
 UUIDs are not stable observation IDs.
+The effective q31 view reuses `(sync_run_id, row_no)` pairs; preserve those as
+provenance rather than observation IDs. Its immutable export must identify each
+scoped semantic/native row independently and bind the complete manifest/hash.
 
 Canonical key serialization preserves field names/types and distinguishes null,
 blank and zero. Case folding, trimming reference keys, reordering source line
@@ -83,6 +95,8 @@ scanner-confirmed pick lane. Positive `this_despatched` deltas support the
 warehouse-despatch lane. NEW_ROW and MISSING_FROM_LATEST are not movement.
 Regressions are anomaly/correction evidence, not automatically negative shipments.
 Rows with different ordered/component roles or quantity units are not summed.
+Curated order-line evidence omits `kitind`; that missing field is not a blank
+indicator or evidence that a line has no kit/component relationship.
 
 V1's hot/complete overlay is the reference implementation for parity, not a
 universal deduplication theorem. Its positive-activity exclusion compares exact
@@ -91,10 +105,19 @@ Retain both raw streams and prove overlapping windows, successive advances,
 resets and corrections against fixtures before a merged lane is accepted.
 Two source IDs alone cannot establish that movements are distinct.
 
-Delivery-note identity differs from the live stored PK: the line table key omits
-`unique_no`, although the downstream semantic partition includes it. This lane
-remains blocked for translation until native cardinality/reader retention is
-proved. A latest view alone cannot recover a row collapsed before persistence.
+Delivery lines have native primary key `(delno,delsfx,ordno,itemno,kitind)`.
+`printind` comes from the header, and `uniqueno` is a separate line field. The
+deployed reader's schema/key and duplicate guards support the stored capture PK;
+the missing `unique_no` PK column does not itself evidence collapsed source rows.
+Preserve all seven fields for posting/settlement identity. The checked direct
+capture population is empty, so direct-to-settled row/value parity remains
+blocked until a nonempty accepted capture is reconciled. Structural key proof
+does not make empty data a successful end-to-end parity test.
+
+Match a delivery's order-line reference through exact scoped customer/order and
+`uniqueno`, against an accepted line revision. Its native delivery `itemno` may
+differ from the current order position. Retain unresolved history rather than
+falling back to matching positions or SKU names.
 
 Retain every delivery-note amendment. Use the latest accepted observation for
 current posting values, not the sum of its revisions. A settled row matched on

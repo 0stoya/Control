@@ -141,6 +141,8 @@ The [first V1-to-V2 mapping and entity diagram](docs/migration/0001-sales-order-
 pins the completed local CSS checkout at `16bb3c2d` and records the distinct live
 runtime revisions. Its [Sales Order Timeline contract](docs/source-contracts/0002-sales-order-timeline.md)
 defines the identity and reconciliation work required before business intake.
+The [key proof and acceptance limits](docs/migration/0002-identity-proof-2026-10-06.md)
+record live reconciliation, native-slot reuse, delivery keys and tested local safeguards.
 
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:

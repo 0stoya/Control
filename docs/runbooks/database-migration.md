@@ -149,8 +149,11 @@ retaining compatible schema and evidence; corrective SQL moves forward.
 The [first mapping](../migration/0001-sales-order-map.md) now proposes canonical
 company/account/order/line identities, source links and distinct lifecycle events
 for Sales Order Timeline. Its [source contract](../source-contracts/0002-sales-order-timeline.md)
-records unresolved native line mapping, delivery-note key scope and overlapping
-warehouse captures. Prove those mappings before enabling the corresponding lanes.
+records native line mapping, delivery-note key scope and overlapping warehouse
+captures. The [key proof](../migration/0002-identity-proof-2026-10-06.md) now
+validates commercial logical references with revision-scoped native aliases and
+the delivery primary key shape. Direct delivery row parity, uncovered history
+and warehouse overlap acceptance remain explicit gates before enabling those lanes.
 Implement only the CRM/product context needed for that working slice, then its
 translator, indexed reporting projection, authenticated API and UI. Use the same
 model for precisely named warehouse and settled-despatch views.
