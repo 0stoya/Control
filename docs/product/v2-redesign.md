@@ -28,6 +28,7 @@ despatch posting, invoice and finance facts.
 | Products | One family/style with ordered variants; exact SKU price, stock and assembly facts remain attached to each variant | Control ADR 0001 proposed |
 | Planning | Useful factual review when decision evidence is unavailable; approved evidence enables the server-ranked decision queue | Existing V1 implementation contract to preserve |
 | Order history | Stable identity and timeline across current/archive movement, independent commercial/fulfilment/finance dimensions | V2 architectural goal and proposed first business slice |
+| Purchasing email inbox | Read purchasing mail, link a supplier confirmation to the exact sent PO revision, show variant/quantity/price and timing differences, retain staff review | Operator requested; local extraction/comparison core implemented; collection, permissions, API/UI pending |
 
 The Purchasing target specifies four summary cards per row on desktop, a broad
 main column and narrow priority rail; two cards and stacked panels on smaller

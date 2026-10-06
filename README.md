@@ -144,6 +144,16 @@ defines the identity and reconciliation work required before business intake.
 The [key proof and acceptance limits](docs/migration/0002-identity-proof-2026-10-06.md)
 record live reconciliation, native-slot reuse, delivery keys and tested local safeguards.
 
+The operator also selected a Purchasing email inbox and supplier-confirmation
+validation. [Its source contract](docs/source-contracts/0003-purchasing-mail-inbox.md)
+defines immutable mail evidence, exact sent-PO revision comparison, reviewed
+variant/unit mappings and independent delivery exceptions. Local coordinate-aware
+candidate extraction and comparison tests are implemented; mail collection and
+authenticated UI are pending. [Mail migration](docs/runbooks/mail-migration.md)
+records protected disabled settings staging and the unresolved inbox read grant.
+While V2 awaits MariaDB/Sculptor access, use V1 for controlled discovery/exports
+under existing authority and provenance contracts.
+
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:
 

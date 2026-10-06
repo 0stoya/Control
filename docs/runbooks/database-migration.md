@@ -91,6 +91,16 @@ Reuse the existing controlled captures rather than introducing competing readers
 
 ## Schema migration procedure
 
+The operator reports on 2026-10-06 that V2 is not yet whitelisted for MariaDB or
+Sculptor. Discovery can run through the existing V1 host, using its accepted
+captures and retained MariaDB evidence. Any V1-to-V2 export must keep the original
+authority, readers, keys, timestamps and immutable manifest; do not assume a new
+current source grant or create a competing collector. The
+[Purchasing inbox contract](../source-contracts/0003-purchasing-mail-inbox.md)
+adds a separate Microsoft 365 evidence lane and V2-native review state. Mail
+settings are staged in protected files, not in the V2 PostgreSQL serving schema.
+No business or mail schema migration has been applied by this discovery work.
+
 The existing runner is scripts/migrate.py with --check / --apply.
 Migration files use ordered NNNN_description.sql names. The ledger records name,
 SHA256 and applied time, rejects changed/unknown applied files and verifies the
