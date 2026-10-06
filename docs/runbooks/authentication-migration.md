@@ -1,6 +1,44 @@
 # Preserve Control V1 accounts and authenticator enrolments
 
-Status: Source-code compatibility inspected; live inventory, integration and transfer pending
+Status: Source-code compatibility and read-only live inventory inspected; integration and transfer pending
+
+## Confirmed V1 host and read-only inventory
+
+On 2026-10-06 the operator identified `FSE-root` as the V1 SSH alias:
+`root@77.68.81.175`, using `~/.ssh/oneflow_prod_ed25519`, repository
+`/srv/css/repository`. The connection succeeded with strict host-key verification.
+Only service metadata, schema definitions, source-file hashes and aggregate counts
+were read; no password hash, MFA ciphertext, recovery-code hash or key was retrieved.
+
+- Host: `oneflow-prod-01`; `css-auth.service` active under `css_auth`.
+- Listener: `127.0.0.1:8020`; `/auth/health` returned `ok`, database `css_app`,
+  runtime database identity `css_auth`, PostgreSQL version number `160015`.
+- `css-control.service` active under `css_control`.
+- Repository revision: `980a58325447c2c1d2a5fc5daca6b041d4ff1ecb`;
+  current UI release: `26ecb133833c30d26414901480d5c2fa49d9a0e1`.
+  There were no working-tree changes in the inspected auth source/migration paths.
+- Expected credential file exists at `/etc/css/credentials/css-auth-totp.key`,
+  owner `root:root`, mode `0600`. Its value and decryption were not inspected.
+  The live unit maps `LoadCredential=css-auth-totp-key` to that path and runs
+  `services.auth.scoped_http_app:app` with the repository's Python virtualenv.
+- All 11 auth tables exist: `app_user`, `audit_event`, `mail_outbox`,
+  `operational_profile`, `permission`, `recovery_code`, `role`,
+  `role_permission`, `session`, `user_invitation`, `user_role`.
+- Seven users, all enabled and all with Argon2-formatted hashes. Four have a
+  recorded TOTP enrolment; none of those four lack encrypted seed data.
+  The remaining accounts retain the authority's existing enrolment policy.
+- Four operational profiles, 15 role-permission links and 40 recovery-code rows
+  were counted. User-role assignment totals: administrator 7, control_operator 4,
+  control_user 4, flow_user 2. Permissions must be reviewed explicitly before V2
+  activation; migration must not silently grant or remove entitlements.
+- NTP synchronized. No table with `migration` in its name was found in the
+  inspected `css_app` information schema; do not infer an applied ledger from
+  repository migration filenames alone.
+
+This is structural inventory, not login/MFA parity acceptance. No account,
+authentication state, source authority or V1 runtime was changed.
+The V2 hostnames and shared-auth rollout gates are recorded in
+[production launch](production-launch.md).
 
 ## Proven V1 code
 
@@ -78,4 +116,3 @@ in parallel. No authentication proxy is enabled in the foundation build.
 
 The live transfer is not performed by this foundation. No existing password,
 seed, account or cookie has been modified.
-

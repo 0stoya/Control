@@ -169,8 +169,11 @@ systemctl list-timers control-backup.timer
 
 The timer creates a daily local custom-format PostgreSQL dump, role definitions
 and root-only `/etc/control` configuration copies. This is not an off-server
-backup. It includes secrets when auth is migrated. Choose the encrypted remote
-destination, access credentials, retention and recovery objectives before go-live.
+backup. It includes secrets when auth is migrated. The operator has deferred
+IONOS Acronis; no agent or protection plan is being configured now. Local
+backups and isolated restore checks remain part of database migration work.
+See [launch configuration](production-launch.md) for the recorded backup status
+and retained provider notes.
 No backup retention deletion is enabled by this initial scaffold; monitor disk
 space until a reviewed retention policy is installed.
 
@@ -183,8 +186,14 @@ successful off-server backup.
 
 ## 7. Public hostname, TLS and authentication
 
-Exact V2 hostname and DNS are pending. Keep the existing CSS hostname serving V1
-until an explicit cutover. Complete the authentication continuity runbook, then
+Use `control.csscdn.co.uk` initially, followed by
+`control.chelmsfordsafety.co.uk` when its DNS is available. On 2026-10-06 the
+initial hostname first resolved to another IPv4/IPv6 destination. The operator
+subsequently corrected both records; HTTPS setup, web firewall rules and the
+certificate renewal timer are now deployed. See
+[HTTPS acceptance](production-https-2026-10-06.md). Staff sign-in and application
+rollout remain pending. Keep `app.csscdn.co.uk` serving V1 until an
+explicit cutover. Complete the authentication continuity runbook, then
 add the Next.js service on loopback and a same-origin Nginx proxy. Obtain and
 verify TLS, automated renewal, correct origin/CSRF rules, request size/time
 limits, safe logging and sign-in rate limits before enabling public traffic.

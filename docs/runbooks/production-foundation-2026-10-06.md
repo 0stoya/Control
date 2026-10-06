@@ -108,12 +108,17 @@ recovery objectives and alert delivery still require configuration.
 
 ## Remaining public/business rollout gates
 
-1. Choose the separate V2 hostname and configure DNS, HTTPS and certificate renewal.
-2. Identify the live V1 authentication endpoint/host and retain one writable auth
+1. DNS, HTTPS setup and a certificate renewal timer for `control.csscdn.co.uk`
+   were added after initial foundation acceptance. See
+   [HTTPS acceptance](production-https-2026-10-06.md). Staff routes remain pending;
+   later move to `control.chelmsfordsafety.co.uk`.
+2. Integrate the confirmed V1 auth service on `FSE-root` (`77.68.81.175`,
+   loopback port 8020) through a private authenticated link; retain one writable auth
    authority during overlap. Preserve the existing Argon2 hashes, encrypted TOTP
    seeds and original Fernet credential; prove login/MFA/authorization parity.
-3. Configure encrypted off-server backup, retention and monitored failure/age
-   reporting. Exercise recovery with the eventual auth/data population.
+3. IONOS Acronis is deferred at the operator's request. Local backups and isolated
+   restores remain part of migration acceptance. Off-server protection is not
+   configured; revisit it separately when the operator resumes that work.
 4. Deploy the Next.js staff UI and its authenticated same-origin API boundary.
 5. Accept the first Sales Order Timeline/Despatched Today source contract, then
    deliver translation, projection, API/UI, reconciliation and shadow acceptance.
@@ -124,4 +129,3 @@ operational authorities were copied, reset or changed during this setup.
 The application release manifest remains immutable. Native acceptance test and
 journald configuration were applied separately after the initial source archive;
 the repository records those additions and the observed deployment state.
-

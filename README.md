@@ -21,9 +21,20 @@ and MariaDB/OGL remains historical and reconciliation evidence.
 
 The production target is `85.215.119.154`, using native systemd services with
 **no Docker**. Root SSH is secured with public keys, password SSH is disabled,
-and the firewall permits rate-limited SSH only during setup. Staff sign-in
+and the firewall permits rate-limited SSH plus public HTTP/HTTPS. The API and
+database remain private. Staff sign-in
 will preserve existing V1 password hashes and authenticator enrolments through
 one authentication authority during migration.
+
+The initial public hostname is `control.csscdn.co.uk`; the later business
+hostname is `control.chelmsfordsafety.co.uk`. IONOS Acronis is deferred at the
+operator's request. Daily local PostgreSQL backup and restore checks remain in
+the migration plan; off-server protection is not configured.
+DNS and the public HTTPS setup page are verified; authenticated staff rollout
+remains pending. See [HTTPS acceptance](docs/runbooks/production-https-2026-10-06.md).
+See [launch configuration](docs/runbooks/production-launch.md) and the
+[V2 redesign brief](docs/product/v2-redesign.md) for the recorded decisions,
+existing design evidence and proposed delivery sequence.
 
 Start with [first root key login](docs/runbooks/ssh-key-first-login.md), then
 [the production server runbook](docs/runbooks/production-server.md). Read
@@ -123,6 +134,9 @@ This starts as a modular monolith. Services should be separated further only
 when scaling, isolation, ownership or deployment evidence justifies it.
 
 ## PostgreSQL domains
+
+See the [database redesign and migration plan](docs/runbooks/database-migration.md)
+for the separation between schema migrations, data transfer and authority cutover.
 
 The V2 database will use explicit domain schemas rather than reproducing legacy
 file families:
